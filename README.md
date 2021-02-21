@@ -6,7 +6,7 @@ libduco is an easy-to-use C interface to the [Duinocoin](https://github.com/revo
 
 libduco, Copyright (c) 2021 Sarah Klocke
 
-This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public License, Version 2, as published by Sam Hocevar. See the LICENSE.md file for more details.
+This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public License, Version 2, as published by Sam Hocevar. See the [LICENSE.md](LICENSE.md) file for more details.
 
 ## Installing
 
@@ -26,7 +26,7 @@ sudo make uninstall
 
 # Features
 
-This is a list of the current implementation status of various features.
+This is a list of the current implementation status of various features. For more information about any specific function, please check the docstrings either through your IDE or in the header file.
 
 - [x] Account-related features
   - [x] Logging in (``duco_login()``)
@@ -38,9 +38,11 @@ This is a list of the current implementation status of various features.
   - [ ] Wrapping Duinocoin on TRON
   - [ ] Unwrapping Duinocoin from TRON
 - [x] Other features
-  - [x] Getting a list of past transactions
+  - [x] Getting a list of past transactions (``duco_get_transactions()`` or ``duco_get_transactions_from()``)
 
 ## Usage example
+
+This example program can be compiled with ``gcc -o example example.c -lduco``.
 
 ```c
 #include <stdio.h>
