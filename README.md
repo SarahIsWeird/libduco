@@ -2,6 +2,8 @@
 
 libduco is an easy-to-use C interface to the [Duinocoin](https://github.com/revoxhere/duino-coin) API. It's written in pure C89 for maximum compatibility! Currently, it's only tested on Linux, but it will be updated soon to also run flawlessly on Windows. If you compile with MinGW, it *should* work already.
 
+Wrapping DUCO isn't supported, and it will never be, unless there is high demand for it.
+
 ## License
 
 libduco, Copyright (c) 2021 Sarah Klocke
@@ -32,11 +34,9 @@ This is a list of the current implementation status of various features. For mor
   - [x] Logging in (``duco_login()``)
   - [x] Registering a new user (``duco_register()``)
   - [x] Changing the password (``duco_change_password()``)
-- [ ] Balance-related features
+- [x] Balance-related features
   - [x] Getting the current balance (``duco_get_balance()``)
   - [x] Sending Duinocoin to another user (``duco_send_balance()``)
-  - [ ] Wrapping Duinocoin on TRON
-  - [ ] Unwrapping Duinocoin from TRON
 - [x] Other features
   - [x] Getting a list of past transactions (``duco_get_transactions()`` or ``duco_get_transactions_from()``)
 
