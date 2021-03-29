@@ -13,7 +13,11 @@
 
 #include <stddef.h>
 
-#include <sys/socket.h>
+#ifdef _WIN32
+# include <WinSock2.h>
+#else
+# include <sys/socket.h>
+#endif
 
 #ifndef DUCO_POOL_ADDR
 # define DUCO_POOL_ADDR "51.15.127.80"
@@ -24,11 +28,19 @@
 #endif /* DUCO_POOL_PORT */
 
 typedef struct duco_connection_t {
+#ifdef _WIN32
+    SOCKET sockfd;
+#else
     int sockfd;
+#endif
     char buffer[256];
     char version[10];
     char username[30];
 } duco_connection_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * Connect to the duco master server at pool_addr:port. Needs to be called in order for other API calls to work.
@@ -115,5 +127,9 @@ extern char* duco_get_transactions(duco_connection_t* conn, unsigned int amount)
  * @return A newly allocated JSON string with the transactions in it, or NULL on failure.
  */
 extern char* duco_get_transactions_from(duco_connection_t* conn, const char* username, unsigned int amount);
+
+#ifdef __cplusplus
+}
+#endif // ifdef __cplusplus
 
 #endif /* DUCO_API */

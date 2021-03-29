@@ -10,23 +10,46 @@
 
 #include "../include/duco.h"
 
-#include <netdb.h>
-#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include <errno.h>
+
+#ifdef _WIN32
+# include <Winsock2.h>
+# include <WS2tcpip.h>
+# include <iphlpapi.h>
+#else
+# include <netdb.h>
+# include <netinet/in.h>
+# include <sys/socket.h>
+# include <unistd.h>
+#endif
 
 static char _DUCO_BUFFER[256];
 static char _DUCO_ERROR[256];
 
+#ifdef _WIN32
+# define write(sock, buffer, len) send(sock, buffer, len, 0)
+# define read(sock, buffer, len) recv(sock, buffer, len, 0)
+#endif
+
 duco_connection_t* duco_connect(const char* pool_addr, int pool_port) {
     duco_connection_t* conn = (duco_connection_t*) malloc(sizeof(duco_connection_t));
+    int recn;
     struct sockaddr_in addr;
     struct hostent* server;
-    int recn;
+
+#ifdef _WIN32
+    WSADATA wsaData;
+
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        sprintf(_DUCO_ERROR, "Couldn't initialize Windows libraries.");
+        free(conn);
+
+        return NULL;
+    }
+#endif
 
     memset(&addr, 0, sizeof(struct sockaddr_in));
     addr.sin_family = AF_INET;
@@ -47,6 +70,10 @@ duco_connection_t* duco_connect(const char* pool_addr, int pool_port) {
     if (connect(conn->sockfd, (struct sockaddr*) &addr, sizeof(addr)) == -1) {
         sprintf(_DUCO_ERROR, "Couldn't connect to the pool server");
         strcat(_DUCO_ERROR, strerror(errno));
+
+    #ifdef _WIN32
+        closesocket(conn->sockfd);
+    #endif
         free(conn);
 
         return NULL;
@@ -68,7 +95,14 @@ duco_connection_t* duco_connect(const char* pool_addr, int pool_port) {
 }
 
 void duco_disconnect(duco_connection_t *conn) {
+#ifdef _WIN32
+    shutdown(conn->sockfd, SD_BOTH);
+    closesocket(conn->sockfd);
+    WSACleanup();
+#else
     close(conn->sockfd);
+#endif
+
     free(conn);
     conn = NULL;
 }
