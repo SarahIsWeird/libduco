@@ -1,6 +1,6 @@
 # libduco
 
-libduco is an easy-to-use C interface to the [Duinocoin](https://github.com/revoxhere/duino-coin) API. It's written in pure C89 for maximum compatibility! Currently, it's only tested on Linux, but it will be updated soon to also run flawlessly on Windows. If you compile with MinGW, it *should* work already.
+libduco is an easy-to-use C interface to the [Duinocoin](https://github.com/revoxhere/duino-coin) API. It's written in pure C89 for maximum compatibility! libduco makes use of native Windows/Linux API calls. Less dependencies, more speed!
 
 Wrapping DUCO isn't supported, and it will never be, unless there is high demand for it.
 
@@ -10,13 +10,29 @@ libduco, Copyright (c) 2021 Sarah Klocke
 
 This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public License, Version 2, as published by Sam Hocevar. See the [LICENSE.md](LICENSE.md) file for more details.
 
-## Installing
+## Prebuilt binaries
 
-Installing is super easy!
+Please check the [Releases page](https://github.com/SarahIsWeird/libduco/releases) for prebuilt binaries. There are Windows and Linux binaries available.
+
+## Building from source
+
+**Prerequisites:**
+
+- a C compiler (gcc/clang preferred, MSVC should work too)
+- make
+
+Building should be simple.
 
 ```bash
-git clone https://github.com/SarahIsWeird/libduco
+git clone github.com/SarahIsWeird/libduco.git
 make
+```
+
+## Installing (Linux only)
+
+There are installation/uninstallation targets available.
+
+```bash
 sudo make install
 ```
 
@@ -39,6 +55,7 @@ This is a list of the current implementation status of various features. For mor
   - [x] Sending Duinocoin to another user (``duco_send_balance()``)
 - [x] Other features
   - [x] Getting a list of past transactions (``duco_get_transactions()`` or ``duco_get_transactions_from()``)
+  - [x] Native Windows support
 
 ## Usage example
 
