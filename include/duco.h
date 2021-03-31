@@ -130,6 +130,6 @@ extern char* duco_get_transactions_from(duco_connection_t* conn, const char* use
 
 #ifdef __cplusplus
 }
-#endif // ifdef __cplusplus
+#endif
 
 #endif /* DUCO_API */
